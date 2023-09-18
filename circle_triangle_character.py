@@ -12,6 +12,7 @@ x = 400
 y = 90
 
 rec = True
+degree = 0
 while True:
     clear_canvas_now()
     grass.draw_now(400, 30)
@@ -27,11 +28,13 @@ while True:
             y = 90
             x += 2
             if(x >= 380 and x <= 400 and y == 90):
+                x = 400
                 rec = False
     else:
-        x = math.cos(270 / 360 * 2 * math.pi)
-        y = y + math.sin(270 / 360 * 2 * math.pi)
-        if(x >= 380 and x <= 400 and y == 90):
+        degree += 2
+        x = x + math.cos(degree / 360 * 2 * math.pi)
+        y = y + math.sin(degree / 360 * 2 * math.pi)
+        if(y <= 90):
                 rec = True
     delay(0.01)
     
