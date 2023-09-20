@@ -25,16 +25,17 @@ def run_rectangle():
     print('RECTANGLE')
 
     # bottom line
-    for x in range(50, 750 + 1, 10):
-        render_all(x, 90)
-        
-    #for x in range(750, 50, -10):
-        render_all(x, 90)
+    #for x in range(50, 750 + 1, 10):
+    #    render_all(x, 90)
+
+    # top line
+    for x in range(750, 50 - 1, -10):
+        render_all(x, 550)
     pass
 
 while True:
     # 함수 호출을 먼저씀, 리드 타임을 줄이기 위해 코드 분리하기
-    run_circle()
+    #run_circle()
     run_rectangle()
 
 close_canvas()
