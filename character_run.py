@@ -42,7 +42,7 @@ def run_rectangle():
 
 while True:
     # 함수 호출을 먼저씀, 리드 타임을 줄이기 위해 코드 분리하기
-    #run_circle()
+    run_circle()
     run_rectangle()
 
 close_canvas()
