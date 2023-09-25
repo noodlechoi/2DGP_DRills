@@ -41,13 +41,21 @@ def handle_events():
 
 def character_move():
     global x, y, dir, frame
-    # 이동
-    x += dir['x'] * 5
-    y += dir['y'] * 5
 
     # 움직을 때만 frame 움직이기
     if (dir['x'] != 0 or dir['y'] != 0):
         frame['x'] = (frame['x'] + 1) % 9
+
+    # 이동
+    step = 10
+    x += dir['x'] * step
+    y += dir['y'] * step
+
+    # 화면 밖으로 나가지 않게
+    size = + cell_size / 2
+    if(x <= 0 + size or x >= WIDTH - size or y <= 0 + size or y >= HEIGHT - size):
+        x -= dir['x'] * step
+        y -= dir['y'] * step
 
 running = True
 x = WIDTH // 2
