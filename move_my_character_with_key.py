@@ -9,6 +9,16 @@ cell_size = 64
 def handle_events():
     pass
 
+def character_move():
+    global x, y, dir, frame
+    # 이동
+    x += dir['x'] * 5
+    y += dir['y'] * 5
+
+    # 움직을 때만 frame 움직이기
+    if (dir['x'] != 0 or dir['y'] != 0):
+        frame['x'] = (frame['x'] + 1) % 9
+
 running = True
 x = WIDTH // 2
 y = HEIGHT // 2
@@ -23,12 +33,7 @@ while running:
     update_canvas()
     # 입력
     handle_events()
-    # 이동
-    x += dir['x'] * 5
-    y += dir['y'] * 5
-
-    if(dir['x'] != 0 or dir['y'] != 0):
-        frame['x'] = (frame['x'] + 1) % 9
+    character_move()
     
     delay(0.05)
 
