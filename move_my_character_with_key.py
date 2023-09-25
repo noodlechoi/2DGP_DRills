@@ -42,10 +42,6 @@ def handle_events():
 def character_move():
     global x, y, dir, frame
 
-    # 움직을 때만 frame 움직이기
-    if (dir['x'] != 0 or dir['y'] != 0):
-        frame['x'] = (frame['x'] + 1) % 9
-
     # 이동
     step = 10
     x += dir['x'] * step
@@ -56,6 +52,10 @@ def character_move():
     if(x <= 0 + size or x >= WIDTH - size or y <= 0 + size or y >= HEIGHT - size):
         x -= dir['x'] * step
         y -= dir['y'] * step
+
+    # 움직을 때만 frame 움직이기
+    if (dir['x'] != 0 or dir['y'] != 0):
+        frame['x'] = (frame['x'] + 1) % 9
 
 running = True
 x = WIDTH // 2
