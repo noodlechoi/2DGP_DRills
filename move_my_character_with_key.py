@@ -19,12 +19,16 @@ def handle_events():
                 running = False
             elif event.key == SDLK_LEFT:
                 dir['x'] -= 1
+                frame['y'] = 2
             elif event.key == SDLK_RIGHT:
                 dir['x'] += 1
+                frame['y'] = 0
             elif event.key == SDLK_UP:
                 dir['y'] += 1
+                frame['y'] = 3
             elif event.key == SDLK_DOWN:
                 dir['y'] -= 1
+                frame['y'] = 1
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_LEFT:
                 dir['x'] += 1
