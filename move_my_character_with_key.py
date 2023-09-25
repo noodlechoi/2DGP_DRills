@@ -59,7 +59,7 @@ while running:
     # 그리기
     clear_canvas()
     ground.draw(WIDTH // 2, HEIGHT // 2)
-    character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y)
+    character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2, cell_size * 2)
     update_canvas()
     # 입력
     handle_events()
