@@ -17,6 +17,23 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_ESCAPE:
                 running = False
+            elif event.key == SDLK_LEFT:
+                dir['x'] -= 1
+            elif event.key == SDLK_RIGHT:
+                dir['x'] += 1
+            elif event.key == SDLK_UP:
+                dir['y'] += 1
+            elif event.key == SDLK_DOWN:
+                dir['y'] -= 1
+        elif event.type == SDL_KEYUP:
+            if event.key == SDLK_LEFT:
+                dir['x'] += 1
+            elif event.key == SDLK_RIGHT:
+                dir['x'] -= 1
+            elif event.key == SDLK_UP:
+                dir['y'] -= 1
+            elif event.key == SDLK_DOWN:
+                dir['y'] += 1
 
 def character_move():
     global x, y, dir, frame
