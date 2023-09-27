@@ -70,6 +70,7 @@ prepare_turtle_canvas()
 
 
 draw_line((-100, -100), (300, 150))
+draw_line((-100, -100), (- 100, 300))       # 같은 x일 때 에러가 발생 (0으로 나눌 수 없음)
 
 
 turtle.done()
