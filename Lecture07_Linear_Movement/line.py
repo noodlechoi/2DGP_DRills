@@ -57,12 +57,11 @@ def draw_line(p1, p2):
     x1, y1 = p1[0], p1[1]       # (-100, - 100)
     x2, y2 = p2[0], p2[1]       # (300, 150)
 
-    for i in range(int(-100 * math.pi), int(100 * math.pi), 10):
+    for i in range(0, 100, 5):
         t = i / 100
-        x = 100 * (1 - t**2) / (1 + t**2)
-        y = 100 * 2 * t / (1 + t**2)
-        # x = (1 - t)*x1 + t*x2   # 1 - t : t의 비율로 x1, x2를 섞는다. 더한다.
-        # y = (1 - t)*y1 + t*y2
+
+        x = (1 - t)*x1 + t*x2   # 1 - t : t의 비율로 x1, x2를 섞는다. 더한다.
+        y = (1 - t)*y1 + t*y2
         draw_point((x, y))
 
 
@@ -70,9 +69,13 @@ def draw_line(p1, p2):
 
 prepare_turtle_canvas()
 
+# draw_line((-100, -100), (300, 150))
+# draw_line((-100, -100), (- 100, 300))       # 같은 x일 때 에러가 발생 (0으로 나눌 수 없음)
 
-draw_line((-100, -100), (300, 150))
-draw_line((-100, -100), (- 100, 300))       # 같은 x일 때 에러가 발생 (0으로 나눌 수 없음)
+points = [(-300, 200), (400, 350), (300, -300), (-200, -200)]
 
+for i in range(0, len(points) - 1):
+    draw_line(points[i], points[i + 1])
+draw_line(points[-1], points[0])
 
 turtle.done()
