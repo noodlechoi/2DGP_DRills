@@ -57,12 +57,12 @@ def draw_line(p1, p2):
     x1, y1 = p1[0], p1[1]       # (-100, - 100)
     x2, y2 = p2[0], p2[1]       # (300, 150)
 
-    a = (y2 - y1) / (x2 - x1)   # 기울기
-    b = y1 - x1 * a
-
-    for x in range(x1, x2 + 1, 10):
-        y = a * x + b
+    for i in range(0, 100 + 1, 10):
+        t = i / 100
+        x = (1 - t)*x1 + t*x2   # 1 - t : t의 비율로 x1, x2를 섞는다. 더한다.
+        y = (1 - t)*y1 + t*y2
         draw_point((x, y))
+
 
     draw_point(p2)              # 마지막 점을 확실히
 
