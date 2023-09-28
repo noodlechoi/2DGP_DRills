@@ -88,17 +88,18 @@ x = WIDTH // 2
 y = HEIGHT // 2
 frame = {'x': 0, 'y': 0}
 dir = {'x': 0, 'y': 0}
-targets = [(0, 0)]
+targets = [(WIDTH // 2, HEIGHT // 2)]
 
 # hide_cursor()
 while running:
-    # 키입력
-    handle_events()
     # 그리기
     for target in targets:
         move_line(target)
         # 끝까지 도착 시 리스트에서 제거
         targets.remove(target)
+
+    # 키입력
+    handle_events()
 
 close_canvas()
 
