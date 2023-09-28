@@ -39,7 +39,18 @@ def character_move():
     if (dir['x'] != 0 or dir['y'] != 0):
         frame['x'] = (frame['x'] + 1) % 9
 
-def draw_line(target):
+# 그리기 함수
+def draw_object():
+    # 그리기
+    clear_canvas()
+    ground.draw(WIDTH // 2, HEIGHT // 2)
+    hand.draw(target[0], target[1], cell_size, cell_size)
+    character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
+                        cell_size * 2)
+    update_canvas()
+    delay(0.1)
+
+def move_line(target):
     global x, y
 
     for i in range(0, 100 + 1, 10):
@@ -47,15 +58,9 @@ def draw_line(target):
         t = i / 100
         x = (1-t)*x + t*target[0]
         y = (1-t)*y + t*target[1]
-        
-        # 그리기
-        clear_canvas()
-        ground.draw(WIDTH // 2, HEIGHT // 2)
-        hand.draw(target[0], target[1], cell_size, cell_size)
-        character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
-                            cell_size * 2)
-        update_canvas()
-        delay(0.1)
+
+        draw_object()
+
 
 running = True
 x = WIDTH // 2
@@ -64,10 +69,10 @@ frame = {'x': 0, 'y': 0}
 dir = {'x': 0, 'y': 0}
 target = [randint(0, WIDTH),randint(0, HEIGHT) ]
 
-hide_cursor()
+# hide_cursor()
 while running:
     # 그리기
-    draw_line(target)
+    move_line(target)
 
     # 키입력
     handle_events()
