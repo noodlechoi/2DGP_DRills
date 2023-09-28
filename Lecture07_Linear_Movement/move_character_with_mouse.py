@@ -5,6 +5,7 @@ WIDTH, HEIGHT = 1280, 1024
 open_canvas(WIDTH, HEIGHT)
 ground = load_image('TUK_GROUND.png')
 character = load_image('animation_sheet.png')
+hand = load_image('hand_arrow.png')
 cell_size = 64
 
 
@@ -18,30 +19,6 @@ def handle_events():
             running = False
         elif event.type == SDL_MOUSEMOTION:
             x, y = event.x, HEIGHT - 1 - event.y
-        elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                running = False
-            elif event.key == SDLK_LEFT:
-                dir['x'] -= 1
-                frame['y'] = 2
-            elif event.key == SDLK_RIGHT:
-                dir['x'] += 1
-                frame['y'] = 0
-            elif event.key == SDLK_UP:
-                dir['y'] += 1
-                frame['y'] = 3
-            elif event.key == SDLK_DOWN:
-                dir['y'] -= 1
-                frame['y'] = 1
-        elif event.type == SDL_KEYUP:
-            if event.key == SDLK_LEFT:
-                dir['x'] += 1
-            elif event.key == SDLK_RIGHT:
-                dir['x'] -= 1
-            elif event.key == SDLK_UP:
-                dir['y'] -= 1
-            elif event.key == SDLK_DOWN:
-                dir['y'] += 1
 
 
 def character_move():
@@ -73,6 +50,7 @@ while running:
     # 그리기
     clear_canvas()
     ground.draw(WIDTH // 2, HEIGHT // 2)
+    hand.draw(x, y, cell_size, cell_size)
     character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
                         cell_size * 2)
     update_canvas()
