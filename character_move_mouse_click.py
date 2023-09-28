@@ -9,15 +9,17 @@ hand = load_image('hand_arrow.png')
 cell_size = 64
 
 def handle_events():
-    global running, target
+    global running, targets
 
     events = get_events()
     for event in events:
         # 프로그램 종료
         if event.type == SDL_QUIT:
             running = False
-        elif event.type == SDL_MOUSEMOTION:
-            target[0], target[1] = event.x, HEIGHT - 1 - event.y
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if event.button == SDL_BUTTON_LEFT:
+                target = event.x, HEIGHT - 1 - event.y
+                targets.append(target)
 
 def character_move():
     global x, y, dir, frame
@@ -39,10 +41,12 @@ def character_move():
 
 # 그리기 함수
 def draw_object():
+    global targets
     # 그리기
     clear_canvas()
     ground.draw(WIDTH // 2, HEIGHT // 2)
-    hand.draw(target[0], target[1], cell_size, cell_size)
+    for target in targets:
+        hand.draw(target[0], target[1], cell_size, cell_size)
     character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
                         cell_size * 2)
     update_canvas()
@@ -77,19 +81,24 @@ def move_line(target):
         draw_object()
 
 
+
+
 running = True
 x = WIDTH // 2
 y = HEIGHT // 2
 frame = {'x': 0, 'y': 0}
 dir = {'x': 0, 'y': 0}
-target = [0, 0]
+targets = [(0, 0)]
 
 # hide_cursor()
 while running:
     # 키입력
     handle_events()
     # 그리기
-    move_line(target)
+    for target in targets:
+        move_line(target)
+        # 끝까지 도착 시 리스트에서 제거
+        targets.remove(target)
 
 close_canvas()
 
