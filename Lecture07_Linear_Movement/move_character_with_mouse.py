@@ -56,14 +56,17 @@ def move_line(target):
     # 프레임 계산 (y), (x, y) - target을 해서 그 값에 따라 방향 결정
     # x > 0 : left, x < 0 : right, y > 0 : down, y < 0 : up
     dir = [x - target[0], y - target[1]]
-    if dir[0] > 0:
-        frame['y'] = 2
-    elif dir[0] < 0:
-        frame['y'] = 0
-    elif dir[1] > 0:
-        frame['y'] = 1
-    elif dir[1] < 0:
-        frame['y'] = 3
+    # dirx 나 diry 중에서 절댓값이 더 큰 수를 기준으로 frame 이동
+    if abs(dir[0]) > abs(dir[1]):
+        if dir[0] > 0:
+            frame['y'] = 2
+        elif dir[0] < 0:
+            frame['y'] = 0
+    else:
+        if dir[1] > 0:
+            frame['y'] = 1
+        elif dir[1] < 0:
+            frame['y'] = 3
 
     for i in range(0, 100 + 1, 10):
         # 이동 계산
