@@ -53,11 +53,25 @@ def draw_object():
 def move_line(target):
     global x, y
 
+    # 프레임 계산 (y), (x, y) - target을 해서 그 값에 따라 방향 결정
+    # x > 0 : left, x < 0 : right, y > 0 : down, y < 0 : up
+    dir = [x - target[0], y - target[1]]
+    if dir[0] > 0:
+        frame['y'] = 2
+    elif dir[0] < 0:
+        frame['y'] = 0
+    elif dir[1] > 0:
+        frame['y'] = 1
+    elif dir[1] < 0:
+        frame['y'] = 3
+
     for i in range(0, 100 + 1, 10):
         # 이동 계산
         t = i / 100
         x = (1-t)*x + t*target[0]
         y = (1-t)*y + t*target[1]
+
+        frame['x'] = (frame['x'] + 1) % 9
 
         draw_object()
 
