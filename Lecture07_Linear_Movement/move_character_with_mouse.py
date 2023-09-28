@@ -8,7 +8,6 @@ character = load_image('animation_sheet.png')
 hand = load_image('hand_arrow.png')
 cell_size = 64
 
-
 def handle_events():
     global running, x, y, dir, frame
 
@@ -19,7 +18,6 @@ def handle_events():
             running = False
         # elif event.type == SDL_MOUSEMOTION:
         #     x, y = event.x, HEIGHT - 1 - event.y
-
 
 def character_move():
     global x, y, dir, frame
@@ -95,7 +93,6 @@ while running:
     handle_events()
     # 랜덤 좌표 생성
     target = [randint(0, WIDTH),randint(0, HEIGHT) ]
-
 
 close_canvas()
 
