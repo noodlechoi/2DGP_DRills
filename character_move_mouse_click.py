@@ -23,24 +23,6 @@ def handle_events():
                 target = event.x, HEIGHT - 1 - event.y
                 targets.append(target)
 
-def character_move():
-    global x, y, dir, frame
-
-    # 이동
-    step = 10
-    x += dir['x'] * step
-    y += dir['y'] * step
-
-    # 화면 밖으로 나가지 않게
-    size = + cell_size / 2
-    if (x <= 0 + size or x >= WIDTH - size or y <= 0 + size or y >= HEIGHT - size):
-        x -= dir['x'] * step
-        y -= dir['y'] * step
-
-    # 움직을 때만 frame 움직이기
-    if (dir['x'] != 0 or dir['y'] != 0):
-        frame['x'] = (frame['x'] + 1) % 9
-
 # 그리기 함수
 def draw_object():
     global targets, frame, mouse_y, mouse_y
