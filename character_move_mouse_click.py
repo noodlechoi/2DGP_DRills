@@ -35,8 +35,8 @@ def draw_object():
     update_canvas()
     delay(0.01)
 
-def move_line(target):
-    global x, y
+def set_frame():
+    global frame, dir
 
     # 프레임 계산 (y), (x, y) - target을 해서 그 값에 따라 방향 결정
     # x > 0 : left, x < 0 : right, y > 0 : down, y < 0 : up
@@ -53,6 +53,11 @@ def move_line(target):
         elif dir[1] < 0:
             frame['y'] = 3
 
+def move_line(target):
+    global x, y
+
+    set_frame()
+    
     for i in range(0, 100 + 1, 10):
         # 이동 계산
         t = i / 100
