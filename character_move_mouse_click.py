@@ -30,6 +30,8 @@ def draw_object():
     clear_canvas()
     ground.draw(WIDTH // 2, HEIGHT // 2)
     hand.draw(mouse_x, mouse_y, cell_size, cell_size)
+    for target in targets:
+        hand.draw(target[0], target[1], cell_size, cell_size)
     character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
                         cell_size * 2)
     update_canvas()
@@ -57,7 +59,7 @@ def move_line(target):
     global x, y
 
     set_frame()
-    
+
     for i in range(0, 100 + 1, 10):
         # 이동 계산
         t = i / 100
