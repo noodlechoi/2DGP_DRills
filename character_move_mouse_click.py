@@ -30,12 +30,10 @@ def draw_object():
     clear_canvas()
     ground.draw(WIDTH // 2, HEIGHT // 2)
     hand.draw(mouse_x, mouse_y, cell_size, cell_size)
-    for target in targets:
-        hand.draw(target[0], target[1], cell_size, cell_size)
     character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
                         cell_size * 2)
     update_canvas()
-    delay(0.1)
+    delay(0.01)
 
 def move_line(target):
     global x, y
@@ -63,11 +61,6 @@ def move_line(target):
 
         frame['x'] = (frame['x'] + 1) % 9
 
-        draw_object()
-
-
-
-
 running = True
 x = WIDTH // 2
 y = HEIGHT // 2
@@ -75,13 +68,17 @@ mouse_x = 0
 mouse_y = 0
 frame = {'x': 0, 'y': 0}
 dir = {'x': 0, 'y': 0}
-targets = [(0, 0)]
+targets = [(WIDTH // 2, HEIGHT // 2)]
 
 hide_cursor()
 while running:
     # 키입력
     handle_events()
+
     # 그리기
+    draw_object()
+
+    # move to target
     for target in targets:
         move_line(target)
         # 끝까지 도착 시 리스트에서 제거
