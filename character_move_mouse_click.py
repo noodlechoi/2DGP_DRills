@@ -27,15 +27,7 @@ def handle_events():
 def draw_object():
     global targets, frame, mouse_y, mouse_y
     # 그리기
-    clear_canvas()
-    ground.draw(WIDTH // 2, HEIGHT // 2)
-    hand.draw(mouse_x, mouse_y, cell_size, cell_size)
-    for target in targets:
-        hand.draw(target[0], target[1], cell_size, cell_size)
-    character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
-                        cell_size * 2)
-    update_canvas()
-    delay(0.01)
+
 
 def set_frame():
     global frame, dir
@@ -58,13 +50,12 @@ def set_frame():
 def move_line(target):
     global x, y
 
-    set_frame()
-
     for i in range(0, 100 + 1, 10):
         # 이동 계산
         t = i / 100
         x = (1-t)*x + t*target[0]
         y = (1-t)*y + t*target[1]
+        draw_object()
 
         frame['x'] = (frame['x'] + 1) % 9
 
@@ -81,16 +72,15 @@ hide_cursor()
 while running:
     # 키입력
     handle_events()
-
-    # 그리기
-    draw_object()
-
-    # move to target
+    clear_canvas()
+    ground.draw(WIDTH // 2, HEIGHT // 2)
+    hand.draw(mouse_x, mouse_y, cell_size, cell_size)
     for target in targets:
-        move_line(target)
-        # 끝까지 도착 시 리스트에서 제거
-        targets.remove(target)
-
+        hand.draw(target[0], target[1], cell_size, cell_size)
+    character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
+                        cell_size * 2)
+    update_canvas()
+    delay(0.01)
 close_canvas()
 
 
