@@ -94,7 +94,6 @@ while running:
             i = 0
             del targets[0]
 
-
 close_canvas()
 
 
