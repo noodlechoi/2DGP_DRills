@@ -29,7 +29,7 @@ def draw_object():
     # 그리기
 
 
-def set_frame():
+def set_frame(target):
     global frame, dir
 
     # 프레임 계산 (y), (x, y) - target을 해서 그 값에 따라 방향 결정
@@ -50,14 +50,7 @@ def set_frame():
 def move_line(target):
     global x, y
 
-    for i in range(0, 100 + 1, 10):
-        # 이동 계산
-        t = i / 100
-        x = (1-t)*x + t*target[0]
-        y = (1-t)*y + t*target[1]
-        draw_object()
 
-        frame['x'] = (frame['x'] + 1) % 9
 
 running = True
 x = WIDTH // 2
@@ -67,11 +60,13 @@ mouse_y = 0
 frame = {'x': 0, 'y': 0}
 dir = {'x': 0, 'y': 0}
 targets = [(WIDTH // 2, HEIGHT // 2)]
+i = 0
 
 hide_cursor()
 while running:
     # 키입력
     handle_events()
+    # 그리기
     clear_canvas()
     ground.draw(WIDTH // 2, HEIGHT // 2)
     hand.draw(mouse_x, mouse_y, cell_size, cell_size)
@@ -80,7 +75,20 @@ while running:
     character.clip_draw(frame['x'] * cell_size, frame['y'] * cell_size, cell_size, cell_size, x, y, cell_size * 2,
                         cell_size * 2)
     update_canvas()
-    delay(0.01)
+    delay(0.05)
+
+    # 이동
+    if len(targets) != 0:
+        t = i / 100
+        x = (1 - t) * x + t * targets[0][0]
+        y = (1-t)*y + t*targets[0][1]
+        frame['x'] = (frame['x'] + 1) % 9
+        # 도착 시
+        i += 10
+        if(i >= 100):
+            i = 0
+            del targets[0]
+
 close_canvas()
 
 
