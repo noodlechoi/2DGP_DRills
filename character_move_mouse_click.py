@@ -79,6 +79,8 @@ while running:
 
     # 이동
     if len(targets) != 0:
+        if i == 0:
+            set_frame(targets[0])
         t = i / 100
         x = (1 - t) * x + t * targets[0][0]
         y = (1-t)*y + t*targets[0][1]
