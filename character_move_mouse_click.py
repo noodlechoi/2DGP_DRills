@@ -56,8 +56,17 @@ def set_frame(target):
             frame['y'] = 3
 
 def move_line(target):
-    global x, y
+    global i, x, y
+    # 프레임 게싼
+    if i == 0:
+        set_frame(target)
+    frame['x'] = (frame['x'] + 1) % 9
 
+    # 이동
+    t = i / 100
+    x = (1 - t) * x + t * target[0]
+    y = (1 - t) * y + t * target[1]
+    i += 10
 
 
 running = True
@@ -79,17 +88,12 @@ while running:
 
     # 이동
     if len(targets) != 0:
-        if i == 0:
-            set_frame(targets[0])
-        t = i / 100
-        x = (1 - t) * x + t * targets[0][0]
-        y = (1-t)*y + t*targets[0][1]
-        frame['x'] = (frame['x'] + 1) % 9
+        move_line(targets[0])
         # 도착 시
-        i += 10
-        if(i >= 100):
+        if (i >= 100):
             i = 0
             del targets[0]
+
 
 close_canvas()
 
