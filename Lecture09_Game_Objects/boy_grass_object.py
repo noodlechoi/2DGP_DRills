@@ -39,21 +39,27 @@ def reset_world():
     global grass
     global boy
     global team
+    global world
 
     running = True
+    world = []
+
+    # 원소 추가
     grass = Grass()
+    world.append(grass)
+
+    # 리스트 추가
     team = [Boy() for _ in range(10)]
+    world += team
 
 def update_world():
-    grass.update()
-    for boy in team:
-        boy.update()
+    for o in world:
+        o.update()
 
 def render_world():
     clear_canvas()
-    grass.draw()
-    for boy in team:
-        boy.draw()
+    for o in world:
+        o.draw()
     update_canvas()
 
 open_canvas()
