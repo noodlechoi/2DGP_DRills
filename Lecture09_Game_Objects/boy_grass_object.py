@@ -88,7 +88,7 @@ reset_world()
 # game main loop code
 while running:
     handle_events()
-    update_canvas() # game logic
+    update_world() # game logic
     render_world()  # draw world
     delay(0.05)
 
