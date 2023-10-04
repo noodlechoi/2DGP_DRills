@@ -52,9 +52,9 @@ def handle_events():
 def reset_world():
     global running
     global grass
-    global boy
     global team
     global world
+    global balls
 
     running = True
     world = []
@@ -66,6 +66,9 @@ def reset_world():
     # 리스트 추가
     team = [Boy() for _ in range(10)]
     world += team
+
+    balls = [Ball() for _ in range(20)]
+    world += balls
 
 def update_world():
     for o in world:
