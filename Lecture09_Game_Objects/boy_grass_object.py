@@ -41,7 +41,7 @@ class Ball:
             self.image = load_image('ball41x41.png')
 
     def update(self):
-        if self.y >= 90 - self.size // 2:
+        if self.y >= 30 + self.size:
             self.y -= 5 * (self.speed / 2)
 
     def draw(self):
