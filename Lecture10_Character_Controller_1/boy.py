@@ -4,7 +4,7 @@ from pico2d import load_image
 class Idle:
     @staticmethod
     def enter():
-        print('IDLE Entered')
+        print('IDLE Entered - 고개 숙이기')
         pass
 
     @staticmethod
@@ -14,7 +14,7 @@ class Idle:
 
     @staticmethod
     def do():
-        print('IDLE Do')
+        print('드르렁')
         pass
 
 class StateMachine():
