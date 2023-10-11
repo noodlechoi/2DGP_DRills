@@ -26,13 +26,17 @@ class AutoRun:
     @staticmethod
     def enter(boy, e):
         if a_down(e):
-            boy.y += 40
-            boy.dir, boy.action = 1, 1
+            boy.y += 30
+            if boy.action == 3:
+                boy.dir, boy.action = 1, 1
+            else:
+                boy.dir, boy.action = -1, 0
+
             boy.run_time = get_time()
 
     @staticmethod
     def exit(boy, e):
-        boy.y -= 40
+        boy.y -= 30
         pass
 
     @staticmethod
@@ -94,7 +98,7 @@ class Idle:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + 1) % 8
-        if get_time() - boy.idle_start_time > 3:
+        if get_time() - boy.idle_start_time > 5:
             boy.state_machine.handle_event(('TIME_OUT', 0))
         pass
 
