@@ -1,4 +1,4 @@
-from pico2d import load_image, SDL_KEYDOWN, SDLK_SPACE, get_time, SDLK_RIGHT, SDLK_LEFT, SDL_KEYUP
+from pico2d import load_image, SDL_KEYDOWN, SDLK_SPACE, get_time, SDLK_RIGHT, SDLK_LEFT, SDL_KEYUP, SDLK_a
 import math
 
 #define event check functions
@@ -18,6 +18,40 @@ def left_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LEFT
 def left_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
+
+def a_down(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
+
+class AutoRun:
+    @staticmethod
+    def enter(boy, e):
+        if a_down(e):
+            boy.y += 40
+            boy.dir, boy.action = 1, 1
+            boy.run_time = get_time()
+
+    @staticmethod
+    def exit(boy, e):
+        boy.y -= 40
+        pass
+
+    @staticmethod
+    def do(boy):
+        boy.frame = (boy.frame + 1) % 8
+        boy.x += boy.dir * 10
+        if boy.x >= 800  - 40:
+            boy.dir = - 1
+            boy.action = 0
+        elif boy.x <= 0  + 40:
+            boy.dir = 1
+            boy.action = 1
+        if get_time() - boy.idle_start_time > 5:
+            boy.state_machine.handle_event(('TIME_OUT', 0))
+        pass
+
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y, 100 * 2, 100 * 2)
 
 class Run:
     @staticmethod
@@ -99,8 +133,9 @@ class StateMachine:
         self.boy = boy
         self.transitions = {
             Sleep: {space_down: Idle,right_down: Run, left_down: Run, right_up: Run, left_up: Run},
-            Idle: {time_out: Sleep, right_down: Run, left_down: Run, right_up: Run, left_up: Run},
-            Run: {right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle}
+            Idle: {time_out: Sleep, right_down: Run, left_down: Run, right_up: Run, left_up: Run, a_down: AutoRun},
+            Run: {right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle},
+            AutoRun: {time_out: Idle}
         }
         pass
 
@@ -134,7 +169,6 @@ class Boy:
         self.state_machine.start()
 
     def update(self):
-        self.frame = (self.frame + 1) % 8
         self.state_machine.update()
 
     def handle_event(self, event):
