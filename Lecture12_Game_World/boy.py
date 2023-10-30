@@ -2,7 +2,7 @@
 
 from pico2d import get_time, load_image, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT
 
-from Lecture12_Game_World import game_world
+import game_world
 from ball import Ball
 
 
