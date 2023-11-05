@@ -32,7 +32,7 @@ class Ball:
         while self.speed == 0:
             self.speed = random.randint(1, 300) / random.randint(10, 300)
 
-        num = random.randint(0, 2)
+        num = random.randint(0, 1)
         if num == 0:
             self.size = 21
             self.image = load_image('ball21x21.png')
@@ -61,10 +61,7 @@ def handle_events():
 
 def reset_world():
     global running
-    global grass
-    global team
     global world
-    global balls
 
     running = True
     world = []
