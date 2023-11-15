@@ -94,6 +94,10 @@ class Zombie:
         return distance2 < (r * PIXEL_PER_METER) **2
         pass
 
+    def ball_count_more_than(self, ball_cnt1, ball_cnt2):
+        return ball_cnt1 >= ball_cnt2
+        pass
+
     def move_slightly_to(self, tx, ty):
         self.dir = math.atan2(ty - self.y, tx - self.x)
         self.speed = RUN_SPEED_PPS
@@ -122,6 +126,17 @@ class Zombie:
             return BehaviorTree.FAIL
         pass
 
+    def is_ball_more_than_boy(self):
+        if self.ball_count_more_than(self.ball_count, play_mode.boy.ball_count):
+            return BehaviorTree.SUCCESS
+        else:
+            return BehaviorTree.FAIL
+    def is_ball_less_than_boy(self):
+        if not self.ball_count_more_than(self.ball_count, play_mode.boy.ball_count):
+            return BehaviorTree.SUCCESS
+        else:
+            return BehaviorTree.FAIL
+
     def move_to_boy(self, r=0.5):
         self.state = 'Walk'
         self.move_slightly_to(play_mode.boy.x, play_mode.boy.y)
@@ -138,6 +153,23 @@ class Zombie:
         self.loc_no = (self.loc_no + 1) % len(self.patrol_locations)
         return BehaviorTree.SUCCESS
         pass
+
+    def set_oppsite_loaction(self):
+        # 좀비를 기준으로 소년의 위치와 대칭한 점을 타겟으로 만든다.
+        oppsite_x, oppsite_y = play_mode.boy.x - self.x, play_mode.boy.y - self.y
+        self.tx = self.x - oppsite_x
+        self.ty = self.y - oppsite_y
+        return BehaviorTree.SUCCESS
+        pass
+
+    def run_away_to_boy(self, r = 0.5):
+        self.state = 'Walk'
+        self.set_oppsite_loaction()
+        self.move_slightly_to(self.tx, self.ty)
+        if self.distance_less_than(self.x, self.y, self.tx, self.ty, r):
+            return BehaviorTree.SUCCESS
+        else:
+            return BehaviorTree.RUNNING
 
     def build_behavior_tree(self):
         a1 = Action('Set target location', self.set_target_location, 500, 50) # action node 생성
@@ -157,8 +189,25 @@ class Zombie:
         SEL_chase_or_wander = Selector('추적 또는 배회', SEQ_chase_boy, SEQ_wander)
 
         a5 = Action('순찰 위치 가져오기', self.get_patrol_location)
+        SEQ_patrol = Sequence('순찰', a5, a2)
 
-        root = SEQ_patrol = Sequence('순찰', a5, a2)
+        # Drill13
+        # 공의 개수
+        c2 = Condition('소년의 공 개수 이상을 가지고 있는가?', self.is_ball_more_than_boy)
+        c3 = Condition('소년의 공 개수 미만을 가지고 있는가?', self.is_ball_less_than_boy)
+        # Action
+        a6 = Action('소년한테 도망치기', self.run_away_to_boy)
+
+        # 소년 추적 조건 변경
+        SEQ_chase_boy = Sequence('소년을 추적', c1, c2, a4)
+
+        # 도망 시퀀스
+        SEQ_run_away = Sequence('도망', c1, c3, a6)
+
+        SEL_chase_or_run = Selector('추적 또는 도망', SEQ_chase_boy, SEQ_run_away)
+
+        root = SEL_chase_run_or_wander = Selector('추적/도망 또는 배회', SEL_chase_or_run, SEQ_wander)
+
 
         self.bt = BehaviorTree(root)
 
