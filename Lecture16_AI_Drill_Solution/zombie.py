@@ -4,6 +4,7 @@ import random
 import math
 import game_framework
 import game_world
+from ball import Ball
 from behavior_tree import BehaviorTree, Action, Sequence, Condition, Selector
 import play_mode
 
@@ -139,6 +140,23 @@ class Zombie:
         else:
             return BehaviorTree.FAIL
 
+    def is_ball_nearby(self, distance):
+        for o in game_world.objects:
+            if type(o) == Ball:
+                if self.distance_less_than(o.x, o.y, self.x, self.y, distance):
+                    return BehaviorTree.SUCCESS
+                else:
+                    return BehaviorTree.FAIL
+
+    def move_to_ball(self, distance):
+        self.state = 'Walk'
+        for o in game_world.objects:
+            if type(o) == Ball:
+                if self.distance_less_than(o.x, o.y, self.x, self.y, distance):
+                    self.move_slightly_to(o.x, o.y)
+                    return BehaviorTree.SUCCESS
+        return BehaviorTree.FAIL
+
     def build_behavior_tree(self):
         a1 = Action('Set target location', self.set_target_location, 500, 50)
         a2 = Action('Move to', self.move_to)
@@ -164,5 +182,9 @@ class Zombie:
         SEQ_chase_boy = Sequence('소년을 추적', c1, SEL_chase_or_run)
 
         root = Selector('추적 또는 배회', SEQ_chase_boy, SEQ_wander)
+
+        c3 = Condition('ball is nearby?', self.is_ball_nearby(3))
+        a7 = Action('move to ball', self.move_to_ball(3))
+        root = Sequence('to ball', c3, a7 )
 
         self.bt = BehaviorTree(root)
